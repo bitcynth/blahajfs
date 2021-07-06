@@ -9,5 +9,5 @@
 
 ## Contributions
 
-adisbladis: adding nix expression
-vandry: Recognizing the experts in the Joint Photographic Experts Group.
+- adisbladis: adding nix expression
+- vandry: Recognizing the experts in the Joint Photographic Experts Group.
