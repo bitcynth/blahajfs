@@ -12,6 +12,13 @@
 
 char blahaj_text[] = "blahaj!\n";
 
+static int is_jpeg(const char* path) {
+    size_t l = strlen(path);
+    if (l > 4 && (strcmp(path+l-5, ".jpeg") == 0)) return 1;
+    if (l > 3 && (strcmp(path+l-4, ".jpg") == 0)) return 1;
+    return 0;
+}
+
 static int do_getattr(const char* path, struct stat* st) {
     printf("[getattr] called, path: %s\n", path);
 
@@ -25,11 +32,10 @@ static int do_getattr(const char* path, struct stat* st) {
         st->st_mode = S_IFDIR | 0755;
         st->st_nlink = 2;
     } else {
-        char* ext = strrchr(path, '.');
         st->st_mode = S_IFREG | 0644;
         st->st_nlink = 1;
-        if (ext && strcmp(ext, ".jpg") == 0) {
-            st->st_size = blahaj_jpg_len;
+        if (is_jpeg(path)) {
+            st->st_size = blahaj_jpeg_len;
         } else {
             st->st_size = strlen(blahaj_text);
         }
@@ -55,13 +61,12 @@ static int do_readdir(const char* path, void* buffer, fuse_fill_dir_t filler, of
 static int do_read(const char* path, char* buffer, size_t size, off_t offset, struct fuse_file_info* fi) {
     printf("[read] called, offset: %ld, path: %s\n", offset, path);
 
-    char* ext = strrchr(path, '.');
-    if (ext && strcmp(ext, ".jpg") == 0) {
-        int sz = (size > (blahaj_jpg_len - offset)) ? blahaj_jpg_len - offset : size;
+    if (is_jpeg(path)) {
+        int sz = (size > (blahaj_jpeg_len - offset)) ? blahaj_jpeg_len - offset : size;
 
         //printf("want: %ld offset: %ld sz: %d\n", size, offset, sz);
 
-        memcpy(buffer, blahaj_jpg + offset, sz);
+        memcpy(buffer, blahaj_jpeg + offset, sz);
         return sz;
     } else {
         int sz = (size > (strlen(blahaj_text) - offset)) ? strlen(blahaj_text) - offset : size;
