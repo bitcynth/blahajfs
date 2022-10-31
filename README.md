@@ -2,7 +2,7 @@
 
 ## Requirements
 
-- Every file is blahaj
+- Every file is BLÅHAJ
 
 ## Time for initial development
 2020-04-21 11:53 CET - 2020-04-21 12:51 CET
