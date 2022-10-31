@@ -63,9 +63,6 @@ static int do_read(const char* path, char* buffer, size_t size, off_t offset, st
 
     if (is_jpeg(path)) {
         int sz = (size > (blahaj_jpeg_len - offset)) ? blahaj_jpeg_len - offset : size;
-
-        //printf("want: %ld offset: %ld sz: %d\n", size, offset, sz);
-
         memcpy(buffer, blahaj_jpeg + offset, sz);
         return sz;
     } else {
